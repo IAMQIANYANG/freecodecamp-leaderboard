@@ -4,6 +4,13 @@ import './App.css'
 const PATH_ALLTIME = 'https://fcctop100.herokuapp.com/api/fccusers/top/alltime';
 const PATH_MONTH = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
 
+const TableHeader = () =>
+  <div>
+    <span>#</span>
+    <span>Camper Name</span>
+    <span>Points in last 30 days</span>
+    <span>All time points</span>
+  </div>;
 
 
 class LeaderTable extends Component {
@@ -39,7 +46,7 @@ class LeaderTable extends Component {
     const { monthLeader, allTimeLeader } = this.state;
     return (
       <div>
-
+        <TableHeader />
       </div>
     )
   }
