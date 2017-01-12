@@ -26,6 +26,10 @@ const TableRow = ({monthList}) =>
   </div>;
 
 
+const Button = ({onClick, children}) =>
+  <button onClick={onClick}> {children} </button>;
+
+
 class LeaderTable extends Component {
   constructor(props) {
     super(props);
