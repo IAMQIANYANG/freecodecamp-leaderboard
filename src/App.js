@@ -15,10 +15,12 @@ const TableHeader = () =>
 
 const TableRow = ({monthList}) =>
   <div>{monthList.map(item =>
-    <div>
-      <span> {item.username} </span>
-      <span> {item.recent}</span>
-      <span> {item.alltime}</span>
+    <div key={item.username} className="row">
+      <span className="col-md-2" />
+      <span className="table-cell col-md-4"> <img alt="Avatar" src={item.img} />{item.username} </span>
+      <span className="table-cell col-md-2"> {item.recent}</span>
+      <span className="table-cell col-md-2"> {item.alltime}</span>
+      <span className="col-md-2" />
     </div>
   )}
   </div>;
@@ -38,7 +40,7 @@ class LeaderTable extends Component {
   }
 
   fetchLeader(type){
-    const toFetch = type === 'month'? PATH_MONTH : PATH_ALLTIME
+    const toFetch = type === 'month'? PATH_MONTH : PATH_ALLTIME;
     fetch(toFetch)
       .then(response => response.json())
       .then(result => this.setResult(result, type))
@@ -56,7 +58,7 @@ class LeaderTable extends Component {
   render() {
     const { monthLeader, allTimeLeader } = this.state;
     return (
-      <div>
+      <div className="row">
         <TableHeader />
         {monthLeader? <TableRow monthList={monthLeader}/> : null}
       </div>
