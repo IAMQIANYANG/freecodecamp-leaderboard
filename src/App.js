@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import './App.css'
+import { sortBy } from 'lodash'
 
 const PATH_ALLTIME = 'https://fcctop100.herokuapp.com/api/fccusers/top/alltime';
 const PATH_MONTH = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
+
+const SORTS = {
+  month: list => sortBy(list, 'recent').reverse(),
+  alltime: list => sortBy(list, 'alltime').reverse()
+};
 
 const TableHeader = () =>
   <div>
@@ -13,17 +19,23 @@ const TableHeader = () =>
   </div>;
 
 
-const TableRow = ({monthList}) =>
-  <div>{monthList.map(item =>
-    <div key={item.username} className="row">
-      <span className="col-md-2" />
-      <span className="table-cell col-md-4"> <img alt="Avatar" src={item.img} />{item.username} </span>
-      <span className="table-cell col-md-2"> {item.recent}</span>
-      <span className="table-cell col-md-2"> {item.alltime}</span>
-      <span className="col-md-2" />
+const TableRow = ({monthList, allTimeList, sortOption }) => {
+  const sortedList = sortOption? SORTS['month'](monthList) : SORTS['alltime'](allTimeList);
+
+  return (
+    <div>{sortedList.map(item =>
+      <div key={item.username} className="row">
+        <span className="col-md-2" />
+        <span className="table-cell col-md-4"> <img alt="Avatar" src={item.img} />{item.username} </span>
+        <span className="table-cell col-md-2"> {item.recent}</span>
+        <span className="table-cell col-md-2"> {item.alltime}</span>
+        <span className="col-md-2" />
+      </div>
+    )}
     </div>
-  )}
-  </div>;
+    )
+};
+
 
 
 const Button = ({onClick, children}) =>
@@ -35,7 +47,8 @@ class LeaderTable extends Component {
     super(props);
     this.state = {
       monthLeader: null,
-      allTimeLeader: null
+      allTimeLeader: null,
+      sortByMonthResult: false
     };
 
     this.fetchLeader = this.fetchLeader.bind(this);
@@ -60,11 +73,11 @@ class LeaderTable extends Component {
   }
 
   render() {
-    const { monthLeader, allTimeLeader } = this.state;
+    const { monthLeader, allTimeLeader, sortByMonthResult} = this.state;
     return (
       <div className="row">
         <TableHeader />
-        {monthLeader? <TableRow monthList={monthLeader}/> : null}
+        {monthLeader? <TableRow monthList={monthLeader} allTimeList={allTimeLeader} sortOption={sortByMonthResult}/> : null}
       </div>
     )
   }
