@@ -13,6 +13,17 @@ const TableHeader = () =>
   </div>;
 
 
+const TableRow = ({monthList}) =>
+  <div>{monthList.map(item =>
+    <div>
+      <span> {item.username} </span>
+      <span> {item.recent}</span>
+      <span> {item.alltime}</span>
+    </div>
+  )}
+  </div>;
+
+
 class LeaderTable extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +58,7 @@ class LeaderTable extends Component {
     return (
       <div>
         <TableHeader />
+        {monthLeader? <TableRow monthList={monthLeader}/> : null}
       </div>
     )
   }
