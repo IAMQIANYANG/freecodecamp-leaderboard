@@ -20,10 +20,10 @@ const TableHeader = ({onSort, sortKey}) =>
       <span className="table-cell col-md-1">Ranking</span>
       <span className="table-cell col-md-3">Camper Name</span>
       <span className="table-cell col-md-2"><Button onClick={() => onSort('month')}>Points in last 30 days
-        {sortKey === 'month'? <FontAwesome name='arrow-down' size='1x'/> : ''}
+        <ShowArrow sortKey={sortKey} sortOption="month"/>
          </Button></span>
       <span className="table-cell col-md-2"><Button onClick={() => onSort('alltime')}>All time points
-        {sortKey === 'alltime'? <FontAwesome name='arrow-down' size='1x'/> : ''}
+        <ShowArrow sortKey={sortKey} sortOption="alltime"/>
       </Button></span>
       <span className="col-md-2" />
     </div>
@@ -51,7 +51,10 @@ const TableRow = ({monthList, allTimeList, sortKey }) => {
 const Button = ({onClick, children}) =>
   <button onClick={onClick}> {children} </button>;
 
-class LeaderTable extends Component {
+const ShowArrow = ({sortOption, sortKey}) =>
+  sortOption === sortKey? <FontAwesome name='caret-down' size='lg'/>: null;
+
+    class LeaderTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
