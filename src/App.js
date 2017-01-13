@@ -38,7 +38,7 @@ const TableRow = ({monthList, allTimeList, sortKey }) => {
       <div key={item.username} className="row">
         <span className="col-md-2" />
         <span className="table-cell col-md-1"> {i + 1}</span>
-        <span className="camper-info col-md-3"> <img alt="Avatar" src={item.img} />{item.username} </span>
+        <span className="camper-info col-md-3"> <img alt="Avatar" src={item.img} /> <a href={'https://www.freecodecamp.com/' + item.username}>{item.username}</a> </span>
         <span className="table-cell col-md-2"> {item.recent}</span>
         <span className="table-cell col-md-2"> {item.alltime}</span>
         <span className="col-md-2" />
