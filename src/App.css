@@ -5,5 +5,29 @@ img {
 
 .table-cell {
     padding: 10px;
+    text-align: center;
 }
 
+Button {
+    background: none;
+    border:none;
+}
+
+Button:focus {
+    outline: 0;
+}
+.camper-info {
+    padding: 10px 50px;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.title {
+    text-align: center;
+    background: #03A678;
+    font-size: 25px;
+    padding: 15px;
+}

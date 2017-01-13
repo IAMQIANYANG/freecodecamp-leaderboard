@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 import { sortBy } from 'lodash'
+import FontAwesome from 'react-fontawesome';
+
 
 const PATH_ALLTIME = 'https://fcctop100.herokuapp.com/api/fccusers/top/alltime';
 const PATH_MONTH = 'https://fcctop100.herokuapp.com/api/fccusers/top/recent';
@@ -10,23 +12,33 @@ const SORTS = {
   alltime: list => sortBy(list, 'alltime').reverse()
 };
 
-const TableHeader = () =>
+const TableHeader = ({onSort, sortKey}) =>
   <div>
-    <span>#</span>
-    <span>Camper Name</span>
-    <span>Points in last 30 days</span>
-    <span>All time points</span>
+    <div className="row title"> Free code camp Leaderboard</div>
+    <div className="row header">
+      <span className="col-md-2" />
+      <span className="table-cell col-md-1">Ranking</span>
+      <span className="table-cell col-md-3">Camper Name</span>
+      <span className="table-cell col-md-2"><Button onClick={() => onSort('month')}>Points in last 30 days
+        {sortKey === 'month'? <FontAwesome name='arrow-down' size='1x'/> : ''}
+         </Button></span>
+      <span className="table-cell col-md-2"><Button onClick={() => onSort('alltime')}>All time points
+        {sortKey === 'alltime'? <FontAwesome name='arrow-down' size='1x'/> : ''}
+      </Button></span>
+      <span className="col-md-2" />
+    </div>
   </div>;
 
 
-const TableRow = ({monthList, allTimeList, sortOption }) => {
-  const sortedList = sortOption? SORTS['month'](monthList) : SORTS['alltime'](allTimeList);
+const TableRow = ({monthList, allTimeList, sortKey }) => {
+  const sortedList = sortKey === 'month'? SORTS['month'](monthList) : SORTS['alltime'](allTimeList);
 
   return (
-    <div>{sortedList.map(item =>
+    <div>{sortedList.map((item,i) =>
       <div key={item.username} className="row">
         <span className="col-md-2" />
-        <span className="table-cell col-md-4"> <img alt="Avatar" src={item.img} />{item.username} </span>
+        <span className="table-cell col-md-1"> {i + 1}</span>
+        <span className="camper-info col-md-3"> <img alt="Avatar" src={item.img} />{item.username} </span>
         <span className="table-cell col-md-2"> {item.recent}</span>
         <span className="table-cell col-md-2"> {item.alltime}</span>
         <span className="col-md-2" />
@@ -36,11 +48,8 @@ const TableRow = ({monthList, allTimeList, sortOption }) => {
     )
 };
 
-
-
 const Button = ({onClick, children}) =>
   <button onClick={onClick}> {children} </button>;
-
 
 class LeaderTable extends Component {
   constructor(props) {
@@ -48,11 +57,12 @@ class LeaderTable extends Component {
     this.state = {
       monthLeader: null,
       allTimeLeader: null,
-      sortByMonthResult: false
+      sortKey: 'month'
     };
 
     this.fetchLeader = this.fetchLeader.bind(this);
     this.setResult = this.setResult.bind(this);
+    this.onSort = this.onSort.bind(this)
 
   }
 
@@ -72,12 +82,16 @@ class LeaderTable extends Component {
     this.fetchLeader('alltime');
   }
 
+  onSort(sortKey) {
+    this.setState({sortKey});
+ }
+
   render() {
-    const { monthLeader, allTimeLeader, sortByMonthResult} = this.state;
+    const { monthLeader, allTimeLeader, sortKey} = this.state;
     return (
       <div className="row">
-        <TableHeader />
-        {monthLeader? <TableRow monthList={monthLeader} allTimeList={allTimeLeader} sortOption={sortByMonthResult}/> : null}
+        <TableHeader sortKey={sortKey} onSort={this.onSort}/>
+        {monthLeader? <TableRow monthList={monthLeader} allTimeList={allTimeLeader} sortKey={sortKey}/> : null}
       </div>
     )
   }
