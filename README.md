@@ -4,4 +4,4 @@ Built with React.
 
 A free code camp project.
 
-You can visit the published page on: [https://cheskayang.github.io/freecodecamp-leaderboard](https://iamqianyang.github.io/freecodecamp-leaderboard)
+You can visit the published page on: [https://cheskayang.github.io/freecodecamp-leaderboard](https://cheskayang.github.io/freecodecamp-leaderboard)
